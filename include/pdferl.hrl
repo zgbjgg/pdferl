@@ -1,0 +1,2 @@
+-define(port_options, [{packet, 4}, nouse_stdio, exit_status, binary]).
+-define(cmd(Xpath, JasperFile, NameFile, TypeFile, Path), "ruby " ++ Path ++ "export.rb " ++ Xpath ++ " " ++ JasperFile ++ " " ++ NameFile ++ " " ++ TypeFile).

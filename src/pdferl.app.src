@@ -1,0 +1,12 @@
+{application, pdferl,
+ [
+  {description, "create pdf's from xml"},
+  {vsn, "1.0"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { pdferl_app, []}},
+  {env, []}
+ ]}.

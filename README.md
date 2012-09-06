@@ -1,7 +1,7 @@
 pdferl
 ======
 
-create pdf or xls from erlang
+An erlang library for fast creation of pdf, xls or rtf files
 
 dependencies
 ======

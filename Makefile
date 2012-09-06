@@ -1,5 +1,5 @@
 
-REBAR = rebar
+REBAR=rebar
 
 .PHONY: clean compile example
 
@@ -11,8 +11,15 @@ clean:
 	@ rm -rf ebin/
 	@ rm -rf example/*.beam
 
-start:
-	@erl -pa ebin/ -eval 'application:start(pdferl)'
+dialyzer:
+	@dialyzer ebin/ --plt $(HOME)/.dialyzer_plt -Wunmatched_returns \
+			-Werror_handling -Wrace_conditions -Wbehaviours \
+			-Wunderspecs
+edoc:
+	@./$(REBAR) doc
+
+edoclean:
+	@rm -rf doc
 
 example:
 	@cp -r example/templates/* reports/

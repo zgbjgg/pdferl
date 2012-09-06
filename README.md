@@ -20,8 +20,11 @@ before start
 ======
 
 A template must be created in iReport. 
+
 Template must has extension .jasper.
+
 You must build template using xml as datasource.
+
 You must know the xpath used to build the template.
 
 clone and compile
@@ -74,9 +77,13 @@ The Args passed to function are in a single tuple, and it must look like this:
 			> Args = {Xml, Xpath, JasperFile, NameFile, TypeFile}.
 			
 Xml : the xml in erlang string format.
+
 Xpath : the xpath used by jasper when you build the template report.
+
 JasperFile : the jasper file (template report).
+
 NameFile : the name file that pdf, xls or rtf will be set.
+
 TypeFile : pdf, xls or rtf.
 
 Now a file has been created, but pdferl can notify you if it is true, the in your code,
@@ -98,8 +105,8 @@ also the function set_header sets the  correct header for a xml format, example:
 
 			> TagPerson = [{name, "name here!"}, {last_name, "last name here!"}, {age, "00"}].
     			...
-    			> xml:set_header(xml:encode([{document, [{personas, [{persona, TagPerson}]}]}])).
-    			"<?xml version=\"1.0\" encoding=\"UTF-8\" ?><document><personas><persona><name>name here!....
+    			> xml:set_header(xml:encode([{document, [{people, [{person, TagPerson}]}]}])).
+    			"<?xml version=\"1.0\" encoding=\"UTF-8\" ?><document><people><person><name>name here!....
 
 examples
 ======

@@ -23,6 +23,8 @@ A template must be created in iReport.
 
 Template must has extension .jasper.
 
+Template must be placed on reports directory.
+
 You must build template using xml as datasource.
 
 You must know the xpath used to build the template.

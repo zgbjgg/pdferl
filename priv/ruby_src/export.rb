@@ -45,10 +45,10 @@ class Export
 
 	# make report, send an {response, <<"ok">>} to erlang when the
 	# file has been created
-	def make_report(xpath, jasper_file, name, type)
+	def make_report(xpath, jasper_file, name, type, store_path)
 		receive do |f|
 			f.when([:xml, String]) do |xml|
-				send_doc("#{xml}", xpath, jasper_file, name, type)
+				send_doc("#{xml}", xpath, jasper_file, name, type, store_path)
 				f.send!([:response, "ok"])
                                 f.receive_loop
 			end
@@ -57,7 +57,7 @@ class Export
  
 	# send doc, connect with document.rb to create IO.popen to java 
 	# classpath, communicate via pipe
-	def send_doc(xml, xml_start_path, report, filename, output_type)
+	def send_doc(xml, xml_start_path, report, filename, output_type, store_path)
 		case output_type
 			when 'rtf'
 				extension = 'rtf'
@@ -82,7 +82,7 @@ class Export
                 parsed_path.delete_at(parsed_path.count - 1)
                 
                 # save the file
-                File.open(File.join(parsed_path) + "/reports/" + filename + "." + output_type, 'w') {|f| f.write(file) }  
+                File.open(store_path + filename + "." + output_type, 'w') {|f| f.write(file) }  
 	end
  
 	# just get content file as string, read line by line (test purposes)
@@ -98,6 +98,6 @@ class Export
 end
  
 # get the variables from erlang to configure the report
-xpath, jasper_file, name, type = *ARGV
+xpath, jasper_file, name, type, store_path = *ARGV
 report = Export.new
-report.make_report(xpath, jasper_file, name, type)
+report.make_report(xpath, jasper_file, name, type, store_path)

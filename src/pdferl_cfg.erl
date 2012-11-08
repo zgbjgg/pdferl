@@ -36,7 +36,8 @@
 -include("pdferl.hrl").
 
 %% export
--export([config/1, get_driver_port/1, exec_cmd/2]).
+-export([get_driver_port/1, exec_cmd/2]).
+    
 
 %% @doc loads config from config file to the system
 %% @spec config(File :: string()) -> [] | ok
@@ -46,8 +47,7 @@ config(File) ->
         {error, _FileError} -> 
 	    [];
         {ok, Vars}         ->
-	    Path = proplists:get_value(path_to_ruby_src, Vars),
-            application:set_env(pdferl, path_to_ruby_src, Path)
+    	    Vars
     end.
 
 %% @doc get port driver for command
@@ -60,8 +60,10 @@ config(File) ->
 					 NameFile :: string(), 
 					 TypeFile :: string()}) -> port().
 get_driver_port({Xpath, JasperFile, NameFile, TypeFile}) ->
-    {ok, Path} = application:get_env(pdferl, path_to_ruby_src),
-    get_driver_port(?cmd(Xpath, JasperFile, NameFile, TypeFile, Path));
+    Path = code:priv_dir(pdferl) ++ "/ruby_src/",
+    ConfigFile = code:priv_dir(pdferl) ++ "/pdferl.conf",
+    StorePath = proplists:get_value(store_path, config(ConfigFile)),
+    get_driver_port(?cmd(Xpath, JasperFile, NameFile, TypeFile, Path, StorePath));
 get_driver_port(Cmd)                                     ->
    erlang:open_port({spawn, Cmd}, ?port_options).
 
@@ -69,4 +71,14 @@ get_driver_port(Cmd)                                     ->
 %% @spec exec_cmd(PortDrv :: port(), DataSource :: binary()) -> term()
 -spec exec_cmd(PortDrv :: port(), DataSource :: binary()) -> term().
 exec_cmd(PortDrv, DataSource) ->
-    port_command(PortDrv, DataSource).    
+%% first ensure that dir exists
+    ConfigFile = code:priv_dir(pdferl) ++ "/pdferl.conf",
+    Path = proplists:get_value(store_path, config(ConfigFile)),
+    ok = mkdir_p(Path),
+    port_command(PortDrv, DataSource).
+
+%% @doc creates a dir or validates if that exists
+%% @spec mkdir_p(Path :: string()) -> ok | {error, term()}
+-spec mkdir_p(Path :: string()) -> ok | {error, term()}.
+mkdir_p(Path) ->
+    filelib:ensure_dir(Path).

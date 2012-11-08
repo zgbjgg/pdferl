@@ -105,7 +105,7 @@ handle_info({PortDrv, {data, Response}}, #state{alive_conn = Alive}) ->
    [From] = [ Pid || {Pdrv, {Pid, _}} <- Alive, PortDrv =:= Pdrv],
    From ! binary_to_term(Response),
    erlang:port_close(PortDrv),
-   {noreply, #state{alive_conn = Alive -- [PortDrv]}}.
+   {noreply, #state{alive_conn = [ A || {Pdrv, _ }=A <- Alive, Pdrv =/= PortDrv]}}.
 
 %% @doc
 %% This function is called by a gen_server when it is about to

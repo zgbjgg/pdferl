@@ -22,6 +22,6 @@ edoclean:
 	@rm -rf doc
 
 example:
-	@cp -r example/templates/* reports/
+	@cp -r example/templates/* priv/reports/
 	@(cd example && erlc sample_pdf.erl && erlc sample_xls.erl)
-	@erl -pa ebin/ -eval 'application:start(pdferl), code:add_patha("example")'
+	@erl -pa ebin/ -eval 'application:start(pdferl), code:add_path("$(shell pwd)"), code:add_patha("example")'

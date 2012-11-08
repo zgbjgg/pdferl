@@ -51,21 +51,21 @@ To start pdferl inside your application or directly from an erlang shell use:
 
 			application:start(pdferl)
 			
-It will start pdferl but you need configure the path to ruby_src directory in the dev.conf
-file that is placed in pdferl directory.
-The path to ruby_src directory must be an absolute path, example:
+It will start pdferl but you need configure the path where created files will be placed,
+this configuration is on priv directory on pdferl.conf
+The path to store files directory must be an absolute path, example:
 
-			%%
-			%% Path to ruby scripts used by the system.
-			%%
-			{path_to_ruby_src, "/path/to/pdferl/ruby_src/"}.
+		%%
+		%% Configure the path used to store where
+		%% created files will be placed.
+		%%
+		{store_path, "/path/where/store/files/"}
 
-When dev.conf has been configured with the correct path, now you can load the config file for
-pdferl application, inside your code or erlang shell type:
+setting templates on correct directory
+======
 
-			pdferl_cfg:config("dev.conf")
-
-You must provide the path where dev.conf file is actually placed.
+Your jasper templates must be set on priv/reports directory since pdferl reads from this 
+directory the templates.
 
 using pdferl inside my application
 ======
@@ -117,12 +117,6 @@ Let's compile the examples placed under directory example
 
 			$ make example
 			
-The previous command will open a erlang shell, inside a erlang shell type the next instructions:
-
-			> pdferl_cfg:config("dev.conf").
-			ok
-			
-Previous command loads the ruby_src path in the system (you must edit this file : dev.conf)
 Now let's create a xls or pdf using the examples:
 
 			> sample_xls:make().

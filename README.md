@@ -16,6 +16,8 @@ java (latest version)
 
 erlang R14B03 or later
 
+rebar to compile (it will be compiled by 'icnelia')
+
 before start
 ======
 

@@ -80,15 +80,15 @@ The Args passed to function are in a single tuple, and it must look like this:
 
 			> Args = {Xml, Xpath, JasperFile, NameFile, TypeFile}.
 			
-Xml : the xml in erlang string format.
+ * Xml : the xml in erlang string format.
 
-Xpath : the xpath used by jasper when you build the template report.
+ * Xpath : the xpath used by jasper when you build the template report.
 
-JasperFile : the jasper file (template report).
+ * JasperFile : the jasper file (template report).
 
-NameFile : the name file that pdf, xls or rtf will be set.
+ * NameFile : the name file that pdf, xls or rtf will be set.
 
-TypeFile : pdf, xls or rtf.
+ * TypeFile : pdf, xls or rtf.
 
 Now a file has been created, but pdferl can notify you if it is true, the in your code,
 you must implement a simple receive for process:
